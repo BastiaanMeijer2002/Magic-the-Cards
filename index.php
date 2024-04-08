@@ -1,16 +1,15 @@
 <?php
 
-use Controller\KaasController;
-use Core\Application;
 use Core\Request;
-use Controller\TestController;
 
-require "vendor/autoloader.php";
+require "vendor/autoload.php";
 
-$app = new Application();
+$container = require_once "bootstrap.php";
+
+$router = $container->get("router");
 
 $request = new Request();
-$response = $app->router->route($request);
+$response = $router->route($request);
 
 if($response){
     $response->send();

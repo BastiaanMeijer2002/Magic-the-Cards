@@ -2,17 +2,14 @@
 
 namespace Controller;
 
-use Core\Controller;
 use Core\Request;
 use Core\Response;
+use Core\Template;
 
-class TestController extends Controller
+class TestController
 {
-    /**
-     * @throws \ReflectionException
-     */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
-        return new Response($this->template->render("test", []));
+        return new Response(Template::render("test", []));
     }
 }

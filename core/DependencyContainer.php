@@ -3,74 +3,34 @@
 namespace Core;
 
 use Exception;
-use ReflectionClass;
+use Psr\Container\ContainerInterface;
 
-class DependencyContainer
+class DependencyContainer implements ContainerInterface
 {
-    protected static $instance;
-    private array $services = [];
-
-    public function add($service): void
-    {
-        $this->services[$service] = $service;
-    }
-
-    private function getService($service)
-    {
-        return $this->services[$service];
-    }
+    protected array $dependencies = [];
 
     /**
      * @throws Exception
      */
-    public function get($service, $args = [])
+    public function get(string $id)
     {
-        if (!$this->has($service)){
-            $this->add($service);
+        var_dump($this->has($id));
+        if ($this->has($id)) {
+            return $this->dependencies[$id];
         }
 
-        $service = $this->getService($service);
-
-        if (is_callable($service)){
-            return call_user_func_array($service, $args);
-        }
-
-        if (class_exists($service)){
-            $reflection = new ReflectionClass($service);
-            $constructor = $reflection->getConstructor();
-
-            if (!$constructor){
-                return $reflection->newInstanceWithoutConstructor();
-            }
-
-            $dependencies = [];
-
-
-            foreach ($constructor->getParameters() as $parameter) {
-                $parameter = $parameter->getType();
-                $parameter = $parameter->getName();
-                $dependencies[] = $this->get($parameter, $args);
-            }
-
-            return $reflection->newInstanceArgs($dependencies);
-
-        }
-
-        return null;
+        throw new Exception("dependency not found");
     }
 
-    public function has($serviceName): bool
+    public function set(string $id, $dependency): void
     {
-        return isset($this->services[$serviceName]);
-    }
-
-    public static function instance()
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
+        if (!$this->has($id)) {
+            $this->dependencies[$id] = $dependency;
         }
-
-        return static::$instance;
     }
 
+    public function has(string $id): bool
+    {
+        return isset($this->dependencies[$id]);
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace Service;
 
-use Core\Service;
 use Exception;
 use PDO;
 use PDOException;
@@ -15,7 +14,7 @@ class DatabaseService
     /**
      * @throws Exception
      */
-    public function __construct(EnvironmentService $environment)
+    public function __construct()
     {
         try {
             $this->db = new PDO('sqlite:database.db');

@@ -1,20 +1,19 @@
 <?php
 
-namespace Service;
+namespace Core;
 
 use ValueError;
 
-class TemplateService
+class Template
 {
-    public $variables;
 
-    public function loadFile($filename)
+    public static function loadFile($filename): bool|string
     {
         $filename = "templates/".$filename.".html.template";
         return file_get_contents($filename);
     }
 
-    public function loadStyleSheets($html)
+    public static function loadStyleSheets($html): string
     {
         $styleDirectory = "public/styles";
         $styleSheets = scandir($styleDirectory);
@@ -33,47 +32,47 @@ class TemplateService
 
     }
 
-    public function replaceTemplates($matches)
+    public static function replaceTemplates($matches): array|bool|string|null
     {
         $key = $matches[1];
-        $template= $this->loadFile($key);
-        if($this->hasChildTemplates($template) > 0){
-            $template = $this->addChildTemplates($template);
+        $template= self::loadFile($key);
+        if(self::hasChildTemplates($template) > 0){
+            $template = self::addChildTemplates($template);
         }
         return $template;
     }
 
-    public function addChildTemplates($template)
+    public static function addChildTemplates($template)
     {
-        $pattern = "/\{\{(.+?)\}\}/";;
+        $pattern = "/\{\{(.+?)\}\}/";
         return preg_replace_callback($pattern, function ($matches) {return $this->replaceTemplates($matches);}, $template);
     }
 
-    public function hasChildTemplates($template)
+    public static function hasChildTemplates($template)
     {
         $pattern = "/\{\{(.+?)\}\}/";
         return preg_match($pattern,$template);
     }
 
-    public function replaceVariables($matches)
+    public static function replaceVariables($matches, $variables)
     {
         $key = $matches[1];
 
-        if (array_key_exists($key, $this->getVariables())){
-            return $this->getVariables()[$key];
+        if (array_key_exists($key, $variables)){
+            return $variables[$key];
         } else {
             throw new ValueError("No data for this key.");
         }
     }
 
-    public function addVariables($template)
+    public static function addVariables($template, $variables): array|string|null
     {
         $pattern = "/\{(.+?)\}/";
-        return preg_replace_callback($pattern, function ($matches) {return $this->replaceVariables($matches);}, $template);
+        return preg_replace_callback($pattern, function ($matches) use ($variables) {return $this->replaceVariables($matches,$variables);}, $template);
 
     }
 
-    public function replaceIf($matches, $elseBlock = false)
+    public static function replaceIf($matches, $elseBlock = false)
     {
         $ifStatement = $matches[1];
         $ifBody = $matches[2];
@@ -87,7 +86,7 @@ class TemplateService
         }
     }
 
-    public function handleIfStatements($template)
+    public static function handleIfStatements($template): array|string|null
     {
         $ifPattern = "/\*(.+?)\*(.+?)\*/s";
         $template = preg_replace_callback($ifPattern, function ($matches) {return $this->replaceIf($matches);}, $template);
@@ -97,12 +96,12 @@ class TemplateService
 
     }
 
-    public function replaceForEach($matches)
+    public static function replaceForEach($matches, $variables): string
     {
         $statement = $matches[1];
         $body = $matches[2];
 
-        $value = $this->getVariables()[$statement];
+        $value = $variables[$statement];
 
         $finalHtml = '';
         $arrayValuePattern = '/\[([^\]]+)\]/';
@@ -116,32 +115,28 @@ class TemplateService
 
     }
 
-    public function handleForEachStatements($template)
+    public static function handleForEachStatements($template): array|string|null
     {
         $forEachPattern = "/\#(.+?)\#(.+?)\#/s";
         return preg_replace_callback($forEachPattern, function ($matches) {return $this->replaceForEach($matches);}, $template);
     }
 
-    public function render($template, $variables)
+    public static function render($template, $variables): array|string|null
     {
         $baseHtml = file_get_contents("public/index.html");
-        $template = $this->loadFile($template);
-        $this->setVariables($variables);
+        $template = self::loadFile($template);
 
-        $template = $this->addChildTemplates($template);
-        $template = $this->handleForEachStatements($template);
-        $template = $this->addVariables($template);
+        $template = self::addChildTemplates($template);
+        $template = self::handleForEachStatements($template);
+        $template = self::addVariables($template, $variables);
 //        $template = $this->handleIfStatements($template);
 
         $finalHtml = preg_replace("/{{base}}/", $template, $baseHtml);
-        $finalHtml = preg_replace("/{{style}}/", $this->loadStyleSheets($finalHtml), $finalHtml);
+        $finalHtml = preg_replace("/{{style}}/", self::loadStyleSheets($finalHtml), $finalHtml);
 //        echo $finalHtml;
         return $finalHtml;
 
     }
 
-    public function setVariables(array $variables) {$this->variables = $variables;}
-
-    public function getVariables(){return $this->variables;}
 
 }

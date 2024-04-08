@@ -55,7 +55,7 @@ class Route
      */
     public function setController(string $controller): void
     {
-        $this->controller = DependencyContainer::instance()->get($controller);
+        $this->controller = new $controller;
     }
 
     /**

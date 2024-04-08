@@ -8,11 +8,10 @@ use Service\EntityManagerService;
 use Service\PermissionService;
 use Service\RepositoryService;
 use Service\RouteRepositoryService;
-use Service\TemplateService;
 
 class Controller
 {
-    public TemplateService $template;
+    public Template $template;
     public EntityManagerService $entityManager;
     public RepositoryService $repository;
     public AuthService $auth;
@@ -20,7 +19,7 @@ class Controller
     public RouteRepositoryService $routes;
     public PermissionService $permissions;
 
-    public function __construct(TemplateService $template, EntityManagerService $entityManager, RepositoryService $repository, AuthService $auth, DatabaseService $database, RouteRepositoryService $routes, PermissionService $permissions)
+    public function __construct(Template $template, EntityManagerService $entityManager, RepositoryService $repository, AuthService $auth, DatabaseService $database, RouteRepositoryService $routes, PermissionService $permissions)
     {
         $this->template = $template;
         $this->entityManager = $entityManager;
