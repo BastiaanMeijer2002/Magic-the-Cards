@@ -4,6 +4,7 @@ use Controller\HomeController;
 use Controller\LoginController;
 use Controller\RegisterController;
 use Core\DependencyContainer;
+use Middleware\AuthMiddleware;
 use Service\AuthService;
 use Service\CardService;
 use Service\DatabaseService;
@@ -57,9 +58,15 @@ $loginController = (function($repository, $authService) {
 
 $container->set("loginController", $loginController);
 
+$authMiddleware = (function ($authService) {
+    return new AuthMiddleware($authService);
+})($authService);
+
+$container->set("authMiddleware", $authMiddleware);
+
 $router = (function ($container) {
     $routeRepository = new RouteRepositoryService($container);
-    $requestHandler = new RequestHandlerService($routeRepository);
+    $requestHandler = new RequestHandlerService($routeRepository, $container);
     return new RoutingService($routeRepository, $requestHandler);
 })($container);
 

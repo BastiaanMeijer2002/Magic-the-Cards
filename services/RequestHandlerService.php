@@ -2,6 +2,7 @@
 
 namespace Service;
 
+use Core\DependencyContainer;
 use Core\Request;
 use ReflectionClass;
 use ReflectionException;
@@ -9,17 +10,20 @@ use ReflectionException;
 class RequestHandlerService
 {
     private RouteRepositoryService $routes;
+    private DependencyContainer $container;
 
     /**
      * @param RouteRepositoryService $routes
      */
-    public function __construct(RouteRepositoryService $routes)
+    public function __construct(RouteRepositoryService $routes, DependencyContainer $container)
     {
         $this->routes = $routes;
+        $this->container = $container;
     }
 
     /**
      * @throws ReflectionException
+     * @throws \Exception
      */
     public function handle(Request $request): Request
     {
@@ -27,8 +31,7 @@ class RequestHandlerService
 
         if(!empty($middlewares)){
             foreach ($middlewares as $middleware){
-                $middleware = new ReflectionClass($middleware);
-                $middleware = $middleware->newInstance();
+                $middleware = $this->container->get($middleware);
                 $request = $middleware->process($request);
             }
         }

@@ -21,7 +21,7 @@ class AuthService
         $status = $this->database->query("SELECT logged_in FROM session_status WHERE session_id = ? ORDER BY id DESC ", [session_id()]);
 
         if (isset($status[0]["logged_in"])){
-            if ($status[0]["logged_in"] === "1") {
+            if ($status[0]["logged_in"] === 1) {
                 return true;
             }
 

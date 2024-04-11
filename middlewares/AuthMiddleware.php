@@ -5,9 +5,20 @@ namespace Middleware;
 use Core\Middleware;
 use Core\RedirectResponse;
 use Core\Request;
+use Service\AuthService;
 
-class AuthMiddleware extends Middleware
+class AuthMiddleware
 {
+    private AuthService $authService;
+
+    /**
+     * @param AuthService $authService
+     */
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function process(Request $request): Request|RedirectResponse
     {
         if (!$this->authService->checkAuth()){
