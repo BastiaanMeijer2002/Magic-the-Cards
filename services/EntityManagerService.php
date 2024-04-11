@@ -206,11 +206,9 @@ class EntityManagerService
     private function getRelationType($getMethod): ?string
     {
         $name = substr($getMethod, 3, -1);
-        var_dump($name);
         $name = ucfirst($name);
         $class = "Model\\".$name;
 
-        var_dump($class);
 
         if (class_exists($class)){
             return $class;

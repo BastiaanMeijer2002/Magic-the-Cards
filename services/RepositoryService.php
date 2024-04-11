@@ -2,6 +2,7 @@
 
 namespace Service;
 
+use Model\Card;
 use ReflectionClass;
 use ReflectionException;
 
@@ -63,7 +64,7 @@ class RepositoryService
 
         if (!empty($entry)) {
             $entry = $entry[0];
-            $id = $entry["id"];
+            $id = $entry[0];
             array_shift($entry);
             $entry = $this->handleRelations($reflection, $entry);
             $obj = $reflection->newInstanceArgs($entry);
@@ -131,21 +132,24 @@ class RepositoryService
     /**
      * @throws ReflectionException
      */
-    private function handleRelations($reflection, $entry)
+    private function handleRelations(ReflectionClass $reflection, $entry): array
     {
+        $entry = array_filter($entry, 'is_string', ARRAY_FILTER_USE_KEY);
         foreach ($entry as $key => $item)
         {
-            $prop = $reflection->getProperty($key);
-            if (class_exists($prop->getType()->getName())){
-                $relationItem = $this->findById($prop->getType()->getName(), intval($item));
-                $id = $relationItem->getId();
-                $relationItem = get_object_vars($relationItem);
-                array_shift($relationItem);
-                array_shift($relationItem);
-                $relationObject = new ReflectionClass($prop->getType()->getName());
-                $relationObject = $relationObject->newInstanceArgs($relationItem);
-                $relationObject->setId($id);
-                $entry[$key] = $relationObject;
+            if ($reflection->hasProperty($key)) {
+                $prop = $reflection->getProperty($key);
+                if (class_exists($prop->getType()->getName())) {
+                    $relationItem = $this->findById($prop->getType()->getName(), intval($item));
+                    $id = $relationItem->getId();
+                    $relationItem = get_object_vars($relationItem);
+                    array_shift($relationItem);
+                    array_shift($relationItem);
+                    $relationObject = new ReflectionClass($prop->getType()->getName());
+                    $relationObject = $relationObject->newInstanceArgs($relationItem);
+                    $relationObject->setId($id);
+                    $entry[$key] = $relationObject;
+                }
             }
         }
 
@@ -179,6 +183,24 @@ class RepositoryService
         }
 
         return $obj;
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function cardExistsByName(string $entityClass, Card $card): ?Card
+    {
+        $reflection = new ReflectionClass($entityClass);
+        $table = $reflection->getProperties()[0]->getDefaultValue();
+
+        $result = $this->database->query("SELECT id FROM $table WHERE name = ?", [$card->getName()]);
+
+        if (count($result) > 0) {
+            $card->setId($result[0]["id"]);
+            return $card;
+        }
+
+        return null;
     }
 
 }

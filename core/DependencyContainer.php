@@ -14,7 +14,6 @@ class DependencyContainer implements ContainerInterface
      */
     public function get(string $id)
     {
-        var_dump($this->has($id));
         if ($this->has($id)) {
             return $this->dependencies[$id];
         }
