@@ -1,7 +1,10 @@
 <?php
 
 use Controller\HomeController;
+use Controller\LoginController;
+use Controller\RegisterController;
 use Core\DependencyContainer;
+use Service\AuthService;
 use Service\CardService;
 use Service\DatabaseService;
 use Service\EntityManagerService;
@@ -21,7 +24,6 @@ $repository = (function ($database) {
 $container->set("repository", $repository);
 
 $entityManager = (function ($database, $repository) {
-    $repository = new RepositoryService($database);
     return new EntityManagerService($database, $repository);
 })($database, $repository);
 
@@ -38,6 +40,22 @@ $homeController = (function ($cardService) {
 })($cardService);
 
 $container->set("homeController", $homeController);
+
+$registerController = (function($repository, $entityManager) {
+    return new RegisterController($repository, $entityManager);
+})($repository, $entityManager);
+
+$container->set("registerController", $registerController);
+
+$authService = (function ($database, $repository) {
+    return new AuthService($database, $repository);
+})($database, $repository);
+
+$loginController = (function($repository, $authService) {
+    return new LoginController($repository, $authService);
+})($repository, $authService);
+
+$container->set("loginController", $loginController);
 
 $router = (function ($container) {
     $routeRepository = new RouteRepositoryService($container);

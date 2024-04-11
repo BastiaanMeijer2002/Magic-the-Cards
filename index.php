@@ -5,6 +5,8 @@ use Service\CardService;
 
 require "vendor/autoload.php";
 
+session_start();
+
 $container = require_once "bootstrap.php";
 
 $router = $container->get("router");
@@ -18,7 +20,12 @@ try {
     echo 500;
 }
 
-$request = new Request();
+$request = new Request(
+    $_SERVER["REQUEST_METHOD"],
+    $_SERVER['PATH_INFO'] ?? '/',
+    $_POST,
+    $_SERVER["QUERY_STRING"] ?? null
+);
 $response = $router->route($request);
 
 if($response){

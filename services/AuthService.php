@@ -34,7 +34,7 @@ class AuthService
 
     public function setAuth(bool $status, string $userId): void
     {
-        $this->database->query("INSERT INTO session_status(session_id, session_status.logged_in, session_status.user_id) VALUES (?, ?, ?)", [session_id(), intval($status), $userId]);
+        $this->database->query("INSERT INTO session_status(session_id, logged_in, user_id) VALUES (?, ?, ?)", [session_id(), intval($status), $userId]);
     }
 
     /**

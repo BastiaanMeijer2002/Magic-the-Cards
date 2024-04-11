@@ -10,12 +10,12 @@ class Request
     private mixed $queryString;
 
 
-    public function __construct()
+    public function __construct($method, $pathInfo, $requestBody, $queryString)
     {
-        $this->method = $_SERVER["REQUEST_METHOD"];
-        $this->pathInfo = $_SERVER['PATH_INFO'] ?? '/';
-        $this->requestBody = $_POST;
-        $this->queryString = $_SERVER["QUERY_STRING"] ?? null;
+        $this->method = $method;
+        $this->pathInfo = $pathInfo;
+        $this->requestBody = $requestBody;
+        $this->queryString = $queryString;
     }
 
     /**
