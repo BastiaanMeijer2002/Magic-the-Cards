@@ -10,17 +10,23 @@ class User
     public string $name;
     public string $email;
     public string $passwordHash;
+    public int $isAdmin;
+    public int $isPremium;
 
     /**
      * @param string $name
      * @param string $email
      * @param string $passwordHash
+     * @param int $isAdmin
+     * @param int $isPremium
      */
-    public function __construct(string $name, string $email, string $passwordHash)
+    public function __construct(string $name, string $email, string $passwordHash, int $isAdmin = 0, int $isPremium = 0)
     {
         $this->name = $name;
         $this->email = $email;
         $this->passwordHash = $passwordHash;
+        $this->isAdmin = $isAdmin;
+        $this->isPremium = $isPremium;
     }
 
     /**
@@ -86,6 +92,42 @@ class User
     {
         $this->passwordHash = $passwordHash;
     }
+
+    /**
+     * @return int
+     */
+    public function getIsAdmin(): int
+    {
+        return $this->isAdmin;
+    }
+
+    /**
+     * @param int $isAdmin
+     */
+    public function setIsAdmin(int $isAdmin): void
+    {
+        $this->isAdmin = $isAdmin;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIsPremium(): int
+    {
+        return $this->isPremium;
+    }
+
+    /**
+     * @param int $isPremium
+     */
+    public function setIsPremium(int $isPremium): void
+    {
+        $this->isPremium = $isPremium;
+    }
+
+
+
+
 
 
 

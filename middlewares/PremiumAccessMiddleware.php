@@ -2,13 +2,11 @@
 
 namespace Middleware;
 
-use Core\Middleware;
 use Core\RedirectResponse;
 use Core\Request;
-use ReflectionException;
 use Service\PermissionService;
 
-class AdminAccessMiddleware
+class PremiumAccessMiddleware
 {
     private PermissionService $permissionService;
 
@@ -19,15 +17,15 @@ class AdminAccessMiddleware
     {
         $this->permissionService = $permissionService;
     }
+
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function process(Request $request): Request|RedirectResponse
     {
-        if (!$this->permissionService->checkAdminLevel()){
-            return new RedirectResponse("/login?error=You+are+not+an+admin");
+        if (!$this->permissionService->checkPremiumLevel()) {
+            return new RedirectResponse("/login?error=You+are+not+a+Premium+member");
         }
-
         return $request;
     }
 }
