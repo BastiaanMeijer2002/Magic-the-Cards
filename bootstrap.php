@@ -10,6 +10,7 @@ use Middleware\PremiumAccessMiddleware;
 use Service\AuthService;
 use Service\CardService;
 use Service\DatabaseService;
+use Service\DeckService;
 use Service\EntityManagerService;
 use Service\PermissionService;
 use Service\RepositoryService;
@@ -77,9 +78,13 @@ $authMiddleware = (function ($authService) {
 
 $container->set("authMiddleware", $authMiddleware);
 
-$deckController = (function () {
-    return new DeckController();
-})();
+$deckService = (function ($repository, $entityManager, $authService) {
+    return new DeckService($repository, $entityManager, $authService);
+})($repository, $entityManager, $authService);
+
+$deckController = (function ($deckService) {
+    return new DeckController($deckService);
+})($deckService);
 
 $container->set("deckController", $deckController);
 

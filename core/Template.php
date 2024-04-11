@@ -117,7 +117,7 @@ class Template
 
     public static function handleForEachStatements($template, $variables): array|string|null
     {
-        $forEachPattern = "/\#(.+?)\#(.+?)\#/s";
+        $forEachPattern = "/\#\#(.+?)\#\#(.+?)\#\#/s";
         return preg_replace_callback($forEachPattern, function ($matches) use ($variables) {return self::replaceForEach($matches, $variables);}, $template);
     }
 

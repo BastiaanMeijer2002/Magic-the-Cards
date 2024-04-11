@@ -32,12 +32,12 @@ class DatabaseService
 
     public function getLinkingTable($class1, $class2): string|bool
     {
-        $tables = $this->query("SHOW TABLES");
+        $tables = $this->query("SELECT name FROM sqlite_master WHERE type='table';");
 
         foreach ($tables as $table)
         {
-            if (str_contains($table["Tables_in_database"], $class1) && str_contains($table["Tables_in_database"], $class2)){
-                return $table["Tables_in_database"];
+            if (str_contains($table["name"], $class1) && str_contains($table["name"], $class2)){
+                return $table["name"];
             }
 
         }

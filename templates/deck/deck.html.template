@@ -1,0 +1,4 @@
+<div style="margin: 2.5%;">
+    <p>{name}</p>
+    <img src="{img}" alt="{name}"/>
+</div>

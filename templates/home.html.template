@@ -1,10 +1,10 @@
 {{base}}
 <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center">
-    #cards#
+    ##cards##
     <div style="margin: 2.5%;">
         <p>[name]</p>
         <img src="[img]" alt="[name]"/>
     </div>
-    #
+    ##
 </div>
 
