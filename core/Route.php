@@ -51,11 +51,11 @@ class Route
     }
 
     /**
-     * @param string $controller
+     * @param $controller
      */
-    public function setController(string $controller): void
+    public function setController($controller): void
     {
-        $this->controller = new $controller;
+        $this->controller = $controller;
     }
 
     /**

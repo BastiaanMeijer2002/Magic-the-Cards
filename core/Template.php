@@ -45,7 +45,7 @@ class Template
     public static function addChildTemplates($template)
     {
         $pattern = "/\{\{(.+?)\}\}/";
-        return preg_replace_callback($pattern, function ($matches) {return $this->replaceTemplates($matches);}, $template);
+        return preg_replace_callback($pattern, function ($matches) {return self::replaceTemplates($matches);}, $template);
     }
 
     public static function hasChildTemplates($template)
@@ -68,7 +68,7 @@ class Template
     public static function addVariables($template, $variables): array|string|null
     {
         $pattern = "/\{(.+?)\}/";
-        return preg_replace_callback($pattern, function ($matches) use ($variables) {return $this->replaceVariables($matches,$variables);}, $template);
+        return preg_replace_callback($pattern, function ($matches) use ($variables) {return self::replaceVariables($matches,$variables);}, $template);
 
     }
 
@@ -115,10 +115,10 @@ class Template
 
     }
 
-    public static function handleForEachStatements($template): array|string|null
+    public static function handleForEachStatements($template, $variables): array|string|null
     {
         $forEachPattern = "/\#(.+?)\#(.+?)\#/s";
-        return preg_replace_callback($forEachPattern, function ($matches) {return $this->replaceForEach($matches);}, $template);
+        return preg_replace_callback($forEachPattern, function ($matches) use ($variables) {return self::replaceForEach($matches, $variables);}, $template);
     }
 
     public static function render($template, $variables): array|string|null
@@ -127,7 +127,7 @@ class Template
         $template = self::loadFile($template);
 
         $template = self::addChildTemplates($template);
-        $template = self::handleForEachStatements($template);
+        $template = self::handleForEachStatements($template, $variables);
         $template = self::addVariables($template, $variables);
 //        $template = $this->handleIfStatements($template);
 

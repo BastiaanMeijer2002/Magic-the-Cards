@@ -1,0 +1,19 @@
+{{base}}
+<nav class="navbar bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand">Magic: the cards</a>
+        <form class="d-flex" method="get" action="/">
+            <input class="form-control me-2" type="search" name="search" placeholder="Search card" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center">
+    #cards#
+    <div style="margin: 2.5%;">
+        <p>[name]</p>
+        <img src="[img]" alt="[name]"/>
+    </div>
+    #
+</div>
+

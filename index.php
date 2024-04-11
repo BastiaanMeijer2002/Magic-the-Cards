@@ -10,7 +10,8 @@ $container = require_once "bootstrap.php";
 $router = $container->get("router");
 
 try {
-    CardService::retrieveCards($container->get("entityManager"), $container->get("repository"));
+    $cardService = $container->get("cardService");
+    $cardService->retrieveCards();
 } catch (ReflectionException $e) {
     var_dump($e->getMessage());
     var_dump($e->getTraceAsString());

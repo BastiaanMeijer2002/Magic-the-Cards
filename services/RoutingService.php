@@ -2,8 +2,6 @@
 
 namespace Service;
 
-use Core\Controller;
-use Core\Service;
 use Exception;
 
 class RoutingService
@@ -30,7 +28,7 @@ class RoutingService
             $parametersPairs = explode("&", $request->getQueryString());
             foreach ($parametersPairs as $parametersPair) {
                 $pair = explode("=", $parametersPair);
-                $parameters[$pair[0]] = $pair[1];
+                $parameters[$pair[0]] = str_replace("+", " ", $pair[1]);
             }
         }
 

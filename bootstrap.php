@@ -1,6 +1,8 @@
 <?php
 
+use Controller\HomeController;
 use Core\DependencyContainer;
+use Service\CardService;
 use Service\DatabaseService;
 use Service\EntityManagerService;
 use Service\RepositoryService;
@@ -9,14 +11,6 @@ use Service\RouteRepositoryService;
 use Service\RoutingService;
 
 $container = new DependencyContainer();
-
-$router = (function () {
-    $routeRepository = new RouteRepositoryService();
-    $requestHandler = new RequestHandlerService($routeRepository);
-    return new RoutingService($routeRepository, $requestHandler);
-})();
-
-$container->set('router', $router);
 
 $database = new DatabaseService();
 
@@ -32,5 +26,25 @@ $entityManager = (function ($database, $repository) {
 })($database, $repository);
 
 $container->set("entityManager", $entityManager);
+
+$cardService = (function ($entityManager, $repository) {
+    return new CardService($entityManager, $repository);
+})($entityManager, $repository);
+
+$container->set("cardService", $cardService);
+
+$homeController = (function ($cardService) {
+    return new HomeController($cardService);
+})($cardService);
+
+$container->set("homeController", $homeController);
+
+$router = (function ($container) {
+    $routeRepository = new RouteRepositoryService($container);
+    $requestHandler = new RequestHandlerService($routeRepository);
+    return new RoutingService($routeRepository, $requestHandler);
+})($container);
+
+$container->set('router', $router);
 
 return $container;
