@@ -1,5 +1,9 @@
-{error}
 {{base}}
+*errorStatus*
+<div class="alert alert-danger" role="alert">
+    {error}
+</div>
+*
 {{deck/newModal}}
 <h1 style="margin: 2.5%">Your decks</h1>
 ##decks##

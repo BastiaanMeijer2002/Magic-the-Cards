@@ -43,12 +43,12 @@ class DeckController
             $deckList[] = ["id" => $deck->getId(),"deckName" => $deck->getName(),"cardCount" => $cardCount, "cards" => $cardList];
         }
 
-
+        $errorStatus = false;
         if ($error != "") {
-            return new Response(Template::render("deck/index", ["decks" => $deckList, "error" => $error]));
+            $errorStatus = true;
         }
 
-        return new Response(Template::render("deck/index", ["decks" => $deckList, "error" => null]));
+        return new Response(Template::render("deck/index", ["decks" => $deckList, "error" => $error, "errorStatus" => $errorStatus]));
     }
 
     /**

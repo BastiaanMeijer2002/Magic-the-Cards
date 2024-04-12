@@ -128,17 +128,8 @@ class Template
         $template = self::handleIfStatements($template, $variables);
 
         $finalHtml = preg_replace("/{{base}}/", $template, $baseHtml);
-        $finalHtml = preg_replace("/{{style}}/", self::loadStyleSheets($finalHtml), $finalHtml);
-//        echo $finalHtml;
-        return $finalHtml;
+        return preg_replace("/{{style}}/", self::loadStyleSheets($finalHtml), $finalHtml);
 
     }
-
-    public static function generate($template, $variables): string
-    {
-        $template = self::loadFile($template);
-        return self::addVariables($template, $variables);
-    }
-
 
 }
