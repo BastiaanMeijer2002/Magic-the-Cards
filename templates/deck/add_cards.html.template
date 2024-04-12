@@ -1,0 +1,27 @@
+<nav class="navbar bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand">Magic: the cards</a>
+        <form class="d-flex" method="get" action="/deck/card/add">
+            <input type="hidden" name="deck" value="{deck}" />
+            <input class="form-control me-2" type="search" name="search" placeholder="Search card" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div style="margin: 2.5%">
+    <h1>Choose a card for in your deck.</h1>
+    <h2>You can have up to two of the same cards in your deck.</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center">
+    ##cards##
+    <form method="post" action="/deck/card/add" style="margin: 2.5%;">
+        <input type="hidden" name="deck" value="{deck}">
+        <input type="hidden" name="card" value="[id]">
+        <div style="display: flex; flex-direction: row; margin: 2.5%;">
+            <p style="margin: 2.5%">[name]</p>
+            <button style="margin: 2.5%" type="submit" class="btn btn-success">Add card</button>
+        </div>
+        <img src="[img]" alt="[name]"/>
+    </form>
+    ##
+</div>

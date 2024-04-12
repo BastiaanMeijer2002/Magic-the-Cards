@@ -149,7 +149,7 @@ class EntityManagerService
         $this->database->query($sql, $args);
 
         if (!empty($relationItems)){
-            $entityId = $this->database->query("SELECT LAST_INSERT_ID()")[0]["LAST_INSERT_ID()"];
+            $entityId = $this->database->query("SELECT last_insert_rowid() AS last_insert_id;")[0]["last_insert_id"];
             foreach ($relationItems as $relationType => $relationItem)
             {
                 $this->handleRelation($entity, $id, $relationType, $relationItem);

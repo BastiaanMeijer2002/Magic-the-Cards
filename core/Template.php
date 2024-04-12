@@ -138,5 +138,11 @@ class Template
 
     }
 
+    public static function generate($template, $variables): string
+    {
+        $template = self::loadFile($template);
+        return self::addVariables($template, $variables);
+    }
+
 
 }

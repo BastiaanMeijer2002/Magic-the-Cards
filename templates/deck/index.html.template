@@ -1,7 +1,21 @@
+{error}
 {{base}}
+{{deck/newModal}}
+<h1 style="margin: 2.5%">Your decks</h1>
 ##decks##
-<h1>[deckName]</h1>
-<div style="display: flex; flex-wrap: wrap; justify-content: left; align-items: center">
+<div style="display: flex; margin: 2.5%; flex-direction: row; width: 100%">
+    <h2 style="margin: 2.5%">[deckName]</h2>
+    <p style="margin: 2.5%">Deck size: [cardCount]/10</p>
+    <form  method="get" action="/deck/card/add">
+        <input type="hidden" name="deck" value="[id]">
+        <button style="margin: 2.5%" type="submit" class="btn btn-success">Add card</button>
+    </form>
+    <form method="get" action="/deck/delete">
+        <input type="hidden" name="deck" value="[id]">
+        <button style="margin: 2.5%" type="submit" class="btn btn-danger">Remove deck</button>
+    </form>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: left; align-items: center; margin: 2.5%">
     [cards]
 </div>
 ##

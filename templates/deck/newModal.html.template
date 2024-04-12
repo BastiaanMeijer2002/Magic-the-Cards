@@ -1,0 +1,23 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newModal" style="float: right; margin: 2.5%;">
+    Add new
+</button>
+
+<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" action="/decks/add" class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="newModalLabel">Create new deck</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label>
+                    Name:
+                    <input class="form-control" type="text" placeholder="Enter a deck name" name="name" />
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>

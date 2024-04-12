@@ -82,9 +82,9 @@ $deckService = (function ($repository, $entityManager, $authService) {
     return new DeckService($repository, $entityManager, $authService);
 })($repository, $entityManager, $authService);
 
-$deckController = (function ($deckService) {
-    return new DeckController($deckService);
-})($deckService);
+$deckController = (function ($deckService, $cardService) {
+    return new DeckController($deckService, $cardService);
+})($deckService, $cardService);
 
 $container->set("deckController", $deckController);
 

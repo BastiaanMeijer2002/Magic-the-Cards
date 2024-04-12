@@ -1,4 +1,9 @@
 <div style="margin: 2.5%;">
-    <p>{name}</p>
+    <form method="get" action="/deck/card/delete" style="display: flex; flex-direction: row; gap: 20%">
+        <p>{name}</p>
+        <input type="hidden" name="deck" value="{deck}">
+        <input type="hidden" name="card" value="{id}">
+        <button type="submit" class="btn btn-danger">Remove</button>
+    </form>
     <img src="{img}" alt="{name}"/>
 </div>
