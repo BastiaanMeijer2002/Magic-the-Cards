@@ -12,6 +12,7 @@ use Service\CardService;
 use Service\DatabaseService;
 use Service\DeckService;
 use Service\EntityManagerService;
+use Service\EnvironmentService;
 use Service\PermissionService;
 use Service\RepositoryService;
 use Service\RequestHandlerService;
@@ -34,9 +35,19 @@ $entityManager = (function ($database, $repository) {
 
 $container->set("entityManager", $entityManager);
 
-$cardService = (function ($entityManager, $repository) {
-    return new CardService($entityManager, $repository);
-})($entityManager, $repository);
+$environmentService = (function () {
+    return new EnvironmentService();
+})();
+
+try {
+    $environmentService->loadVariables();
+} catch (Exception $e) {
+    var_dump($e);
+}
+
+$cardService = (function ($entityManager, $repository, $environment) {
+    return new CardService($entityManager, $repository, $environment);
+})($entityManager, $repository, $environmentService);
 
 $container->set("cardService", $cardService);
 
