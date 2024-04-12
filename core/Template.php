@@ -78,7 +78,7 @@ class Template
         $ifBody = $matches[2];
 
         if (isset($variables[$ifStatement])) {
-            if ($variables[$ifStatement]) {
+            if ($variables[$ifStatement] || $variables[$ifStatement] == 1) {
                 return $ifBody;
             }
         }

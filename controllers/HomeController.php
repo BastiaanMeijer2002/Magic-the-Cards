@@ -40,7 +40,8 @@ class HomeController
         }
 
         $isPremium = $this->permissionService->checkPremiumLevel();
+        $isAdmin = $this->permissionService->checkAdminLevel();
 
-        return new Response(Template::render("home", ["cards" => $cardList, "isPremium" => $isPremium]));
+        return new Response(Template::render("home", ["cards" => $cardList, "isPremium" => $isPremium, "isAdmin" => $isAdmin]));
     }
 }

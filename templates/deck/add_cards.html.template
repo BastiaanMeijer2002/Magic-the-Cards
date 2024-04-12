@@ -1,6 +1,7 @@
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand">Magic: the cards</a>
+        <a class="navbar-brand" href="/">Magic: the cards</a>
+        <a class="nav-link" href="/logout">Logout</a>
         <form class="d-flex" method="get" action="/deck/card/add">
             <input type="hidden" name="deck" value="{deck}" />
             <input class="form-control me-2" type="search" name="search" placeholder="Search card" aria-label="Search">

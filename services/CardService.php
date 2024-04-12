@@ -66,4 +66,12 @@ class CardService
     {
         return $this->repositoryService->findAllCustom(Card::class, ["name" => $name]);
     }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function getCustomCards(): bool|array
+    {
+        return $this->repositoryService->findAllCustom(Card::class, ["isCustom" => 1]);
+    }
 }

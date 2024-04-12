@@ -1,8 +1,9 @@
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand">Magic: the cards</a>
-        *isPremium*<a class="nav-link" href="/decks">Your decks</a>*
+        <a class="navbar-brand" href="/">Magic: the cards</a>
         <a class="nav-link" href="/logout">Logout</a>
+        *isPremium*<a class="nav-link" href="/decks">Your decks</a>*
+        *isAdmin*<a class="nav-link" href="/admin">Admin Dashboard</a>*
         <form class="d-flex" method="get" action="/">
             <input class="form-control me-2" type="search" name="search" placeholder="Search card" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>

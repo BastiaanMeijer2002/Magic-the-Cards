@@ -9,15 +9,17 @@ class Card
     public int $id;
     public string $name;
     public string $img;
+    public int $isCustom;
 
     /**
      * @param string $name
      * @param string $img
      */
-    public function __construct(string $name, string $img)
+    public function __construct(string $name, string $img, int $isCustom = 0)
     {
         $this->name = $name;
         $this->img = $img;
+        $this->isCustom = $isCustom;
     }
 
 
@@ -67,6 +69,22 @@ class Card
     public function setImg(string $img): void
     {
         $this->img = $img;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIsCustom(): int
+    {
+        return $this->isCustom;
+    }
+
+    /**
+     * @param int $isCustom
+     */
+    public function setIsCustom(int $isCustom): void
+    {
+        $this->isCustom = $isCustom;
     }
 
 

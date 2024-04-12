@@ -1,10 +1,12 @@
 <?php
 
+use Controller\AdminDashboardController;
 use Controller\DeckController;
 use Controller\HomeController;
 use Controller\LoginController;
 use Controller\RegisterController;
 use Core\DependencyContainer;
+use Middleware\AdminAccessMiddleware;
 use Middleware\AuthMiddleware;
 use Middleware\PremiumAccessMiddleware;
 use Service\AuthService;
@@ -71,6 +73,12 @@ $registerController = (function($repository, $entityManager) {
 
 $container->set("registerController", $registerController);
 
+$adminAccessMiddleware = (function($permissionService) {
+    return new AdminAccessMiddleware($permissionService);
+})($permissionService);
+
+$container->set("adminAccessMiddleware", $adminAccessMiddleware);
+
 $premiumAccessMiddleware = (function($permissionService) {
     return new PremiumAccessMiddleware($permissionService);
 })($permissionService);
@@ -98,6 +106,16 @@ $deckController = (function ($deckService, $cardService) {
 })($deckService, $cardService);
 
 $container->set("deckController", $deckController);
+
+$userService = (function($entityMangerService,$repositoryService, $authService) {
+    return new \Service\UserService($entityMangerService, $repositoryService, $authService);
+})($entityManager, $repository, $authService);
+
+$adminController = (function ($userService, $cardService) {
+    return new AdminDashboardController($userService, $cardService);
+})($userService, $cardService);
+
+$container->set("adminController", $adminController);
 
 $router = (function ($container) {
     $routeRepository = new RouteRepositoryService($container);
