@@ -59,4 +59,16 @@ class LoginController
         return new RedirectResponse("/");
     }
 
+    /**
+     * @throws \ReflectionException
+     */
+    public function logoutUser(Request $request): RedirectResponse
+    {
+        $user = $this->authService->getCurrentUser();
+
+        $this->authService->setAuth(false, $user->getId());
+
+        return new RedirectResponse("/");
+    }
+
 }
