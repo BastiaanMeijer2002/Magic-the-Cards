@@ -6,17 +6,20 @@ use Core\Request;
 use Core\Response;
 use Core\Template;
 use Service\CardService;
+use Service\PermissionService;
 
 class HomeController
 {
     private CardService $cardService;
+    private PermissionService $permissionService;
 
     /**
      * @param CardService $cardService
      */
-    public function __construct(CardService $cardService)
+    public function __construct(CardService $cardService, PermissionService $permissionService)
     {
         $this->cardService = $cardService;
+        $this->permissionService = $permissionService;
     }
 
     /**
@@ -36,6 +39,8 @@ class HomeController
             $cardList[] = ["name" => $card->getName(), "img" => $card->getImg()];
         }
 
-        return new Response(Template::render("home", ["cards" => $cardList]));
+        $isPremium = $this->permissionService->checkPremiumLevel();
+
+        return new Response(Template::render("home", ["cards" => $cardList, "isPremium" => $isPremium]));
     }
 }

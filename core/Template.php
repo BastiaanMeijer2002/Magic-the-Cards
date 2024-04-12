@@ -72,27 +72,23 @@ class Template
 
     }
 
-    public static function replaceIf($matches, $elseBlock = false)
+    public static function replaceIf($matches, $variables)
     {
         $ifStatement = $matches[1];
         $ifBody = $matches[2];
 
-        if (eval("return".$ifStatement.";")){
-            return $ifBody;
-        } else if ($elseBlock !== false){
-            return $elseBlock;
-        } else {
-            return '';
+        if (isset($variables[$ifStatement])) {
+            if ($variables[$ifStatement]) {
+                return $ifBody;
+            }
         }
+        return "";
     }
 
-    public static function handleIfStatements($template): array|string|null
+    public static function handleIfStatements($template, $variables): array|string|null
     {
         $ifPattern = "/\*(.+?)\*(.+?)\*/s";
-        $template = preg_replace_callback($ifPattern, function ($matches) {return $this->replaceIf($matches);}, $template);
-
-        $ifElsePattern = "/\*(.+?)\*(.+?)\&&(.+?)\&&/s";
-        return preg_replace_callback($ifElsePattern, function ($matches) {return $this->replaceIf($matches, $matches[3]);}, $template);
+        return preg_replace_callback($ifPattern, function ($matches) use ($variables) {return self::replaceIf($matches, $variables);}, $template);
 
     }
 
@@ -129,7 +125,7 @@ class Template
         $template = self::addChildTemplates($template);
         $template = self::handleForEachStatements($template, $variables);
         $template = self::addVariables($template, $variables);
-//        $template = $this->handleIfStatements($template);
+        $template = self::handleIfStatements($template, $variables);
 
         $finalHtml = preg_replace("/{{base}}/", $template, $baseHtml);
         $finalHtml = preg_replace("/{{style}}/", self::loadStyleSheets($finalHtml), $finalHtml);

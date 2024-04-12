@@ -40,9 +40,17 @@ $cardService = (function ($entityManager, $repository) {
 
 $container->set("cardService", $cardService);
 
-$homeController = (function ($cardService) {
-    return new HomeController($cardService);
-})($cardService);
+$authService = (function ($database, $repository) {
+    return new AuthService($database, $repository);
+})($database, $repository);
+
+$permissionService = (function($authService) {
+    return new PermissionService($authService);
+})($authService);
+
+$homeController = (function ($cardService, $permissionService) {
+    return new HomeController($cardService, $permissionService);
+})($cardService, $permissionService);
 
 $container->set("homeController", $homeController);
 
@@ -51,14 +59,6 @@ $registerController = (function($repository, $entityManager) {
 })($repository, $entityManager);
 
 $container->set("registerController", $registerController);
-
-$authService = (function ($database, $repository) {
-    return new AuthService($database, $repository);
-})($database, $repository);
-
-$permissionService = (function($authService) {
-    return new PermissionService($authService);
-})($authService);
 
 $premiumAccessMiddleware = (function($permissionService) {
     return new PremiumAccessMiddleware($permissionService);
