@@ -2,7 +2,7 @@
     Add new
 </button>
 
-<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true" style="color:black;">
     <div class="modal-dialog">
         <form method="post" action="/decks/add" class="modal-content">
             <div class="modal-header">

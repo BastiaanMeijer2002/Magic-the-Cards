@@ -16,6 +16,7 @@ class AdminDashboardController
 
     /**
      * @param UserService $userService
+     * @param CardService $cardService
      */
     public function __construct(UserService $userService, CardService $cardService)
     {

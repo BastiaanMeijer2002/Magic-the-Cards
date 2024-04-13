@@ -4,70 +4,77 @@
     {error}
 </div>
 *
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Admin</th>
-        <th scope="col"></th>
-        <th scope="col">Premium</th>
-        <th scope="col"></th>
-        <th scope="col">Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    ##users##
-    <tr>
-        <th scope="row">[id]</th>
-        <td>[name]</td>
-        <td>[email]</td>
-        <td>[isAdmin]</td>
-        <td>
-            <form method="post" action="/user/admin" style="margin-left: 5%">
-                <input type="hidden" name="user" value="[id]">
-                <button class="btn btn-primary" type="submit">Update</button>
-            </form>
-        </td>
-        <td>[isPremium]</td>
-        <td>
-            <form method="post" action="/user/premium" style="margin-left: 5%">
-                <input type="hidden" name="user" value="[id]">
-                <button class="btn btn-primary" type="submit">Update</button>
-            </form>
-        </td>
-        <td>
-            <form method="post" action="/user/delete">
-                <input type="hidden" name="user" value="[id]">
-                <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    ##
-    </tbody>
-</table>
-{{admin/newCardModal}}
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    ##cards##
-    <tr>
-        <th scope="row">[id]</th>
-        <td>[name]</td>
-        <td>
-            <form method="post" action="/card/delete">
-                <input type="hidden" name="card" value="[id]">
-                <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    ##
-    </tbody>
-</table>
+<div style="margin: 2.5%;">
+    <h1>User management</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Admin</th>
+            <th scope="col"></th>
+            <th scope="col">Premium</th>
+            <th scope="col"></th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        ##users##
+        <tr>
+            <th scope="row">[id]</th>
+            <td>[name]</td>
+            <td>[email]</td>
+            <td>[isAdmin]</td>
+            <td>
+                <form method="post" action="/user/admin" style="margin-left: 5%">
+                    <input type="hidden" name="user" value="[id]">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </form>
+            </td>
+            <td>[isPremium]</td>
+            <td>
+                <form method="post" action="/user/premium" style="margin-left: 5%">
+                    <input type="hidden" name="user" value="[id]">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/user/delete">
+                    <input type="hidden" name="user" value="[id]">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        ##
+        </tbody>
+    </table>
+</div>
+<div style="margin: 2.5%">
+    <h1>Card management</h1>
+    <h2>Please note that it is only possible to add and remove custom cards.</h2>
+    {{admin/newCardModal}}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        ##cards##
+        <tr>
+            <th scope="row">[id]</th>
+            <td>[name]</td>
+            <td>
+                <form method="post" action="/card/delete">
+                    <input type="hidden" name="card" value="[id]">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        ##
+        </tbody>
+    </table>
+</div>

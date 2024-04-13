@@ -1,4 +1,4 @@
-<nav class="navbar bg-body-tertiary">
+<nav class="navbar bg-primary bg-gradient">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Magic: the cards</a>
         <a class="nav-link" href="/logout">Logout</a>
@@ -6,7 +6,7 @@
         *isAdmin*<a class="nav-link" href="/admin">Admin Dashboard</a>*
         <form class="d-flex" method="get" action="/">
             <input class="form-control me-2" type="search" name="search" placeholder="Search card" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-success" type="submit">Search</button>
         </form>
     </div>
 </nav>
