@@ -47,11 +47,13 @@
     ##
     </tbody>
 </table>
+{{admin/newCardModal}}
 <table class="table">
     <thead>
     <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
+        <th scope="col">Delete</th>
     </tr>
     </thead>
     <tbody>
@@ -59,6 +61,12 @@
     <tr>
         <th scope="row">[id]</th>
         <td>[name]</td>
+        <td>
+            <form method="post" action="/card/delete">
+                <input type="hidden" name="card" value="[id]">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
     ##
     </tbody>

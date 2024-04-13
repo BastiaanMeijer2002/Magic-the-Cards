@@ -22,7 +22,7 @@
             <p style="margin: 2.5%">[name]</p>
             <button style="margin: 2.5%" type="submit" class="btn btn-success">Add card</button>
         </div>
-        <img src="[img]" alt="[name]"/>
+        <img width="223" height="310" src="[img]" alt="[name]"/>
     </form>
     ##
 </div>

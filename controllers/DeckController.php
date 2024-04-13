@@ -100,7 +100,11 @@ class DeckController
         }
 
         foreach ($cards as $card) {
-            $cardList[] = ["id" => $card->getId(),"name" => $card->getName(), "img" => $card->getImg()];
+            $img = $card->getImg();
+            if ($card->getIsCustom()) {
+                $img = "/".$img;
+            }
+            $cardList[] = ["id" => $card->getId(),"name" => $card->getName(), "img" => $img];
         }
 
         return new Response(Template::render("deck/add_cards", ["cards" => $cardList, "deck" => $deck]));

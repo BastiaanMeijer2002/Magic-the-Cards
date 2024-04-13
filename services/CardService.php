@@ -11,16 +11,19 @@ class CardService
     private EntityManagerService $entityManagerService;
     private RepositoryService $repositoryService;
     private EnvironmentService $environmentService;
+    private FileService $fileService;
 
     /**
      * @param EntityManagerService $entityManagerService
      * @param RepositoryService $repositoryService
      */
-    public function __construct(EntityManagerService $entityManagerService, RepositoryService $repositoryService, EnvironmentService $environmentService)
+    public function __construct(EntityManagerService $entityManagerService, RepositoryService $repositoryService,
+                                EnvironmentService $environmentService, FileService $fileService)
     {
         $this->entityManagerService = $entityManagerService;
         $this->repositoryService = $repositoryService;
         $this->environmentService = $environmentService;
+        $this->fileService = $fileService;
     }
 
     /**
@@ -73,5 +76,43 @@ class CardService
     public function getCustomCards(): bool|array
     {
         return $this->repositoryService->findAllCustom(Card::class, ["isCustom" => 1]);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function deleteCard(int $card): bool
+    {
+        $card = $this->repositoryService->findById(Card::class, $card);
+
+        if (!$card) {
+            return false;
+        }
+
+        if (!$card->getIsCustom()) {
+            return false;
+        }
+
+        $this->entityManagerService->deleteEntity($card);
+
+        return true;
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function addCustomCard(string $name, array $img): bool
+    {
+        $upload = $this->fileService->uploadFile($img);
+
+        if ($upload == "") {
+            return false;
+        }
+
+        $card = new Card($name, $upload, 1);
+
+        $this->entityManagerService->addEntity($card);
+
+        return true;
     }
 }

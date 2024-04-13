@@ -8,14 +8,16 @@ class Request
     private mixed $pathInfo;
     private mixed $requestBody;
     private mixed $queryString;
+    private mixed $files;
 
 
-    public function __construct($method, $pathInfo, $requestBody, $queryString)
+    public function __construct($method, $pathInfo, $requestBody, $queryString, $files)
     {
         $this->method = $method;
         $this->pathInfo = $pathInfo;
         $this->requestBody = $requestBody;
         $this->queryString = $queryString;
+        $this->files = $files;
     }
 
     /**
@@ -66,7 +68,20 @@ class Request
         $this->requestBody = $requestBody;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFiles(): mixed
+    {
+        return $this->files;
+    }
 
-
+    /**
+     * @param mixed $files
+     */
+    public function setFiles(mixed $files): void
+    {
+        $this->files = $files;
+    }
 
 }

@@ -17,4 +17,6 @@ $routes = [
     ["method" => "POST", "uri" => "/user/admin", "controller" => "adminController", "function" => "updateUserAdmin", "middleware" => ["adminAccessMiddleware"]],
     ["method" => "POST", "uri" => "/user/premium", "controller" => "adminController", "function" => "updateUserPremium", "middleware" => ["adminAccessMiddleware"]],
     ["method" => "POST", "uri" => "/user/delete", "controller" => "adminController", "function" => "deleteUser", "middleware" => ["adminAccessMiddleware"]],
+    ["method" => "POST", "uri" => "/card/delete", "controller" => "cardController", "function" => "deleteCard", "middleware" => ["adminAccessMiddleware"]],
+    ["method" => "POST", "uri" => "/card/add", "controller" => "cardController", "function" => "addCard", "middleware" => ["adminAccessMiddleware"]],
 ];

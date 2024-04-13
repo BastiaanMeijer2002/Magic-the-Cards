@@ -1,6 +1,7 @@
 <?php
 
 use Controller\AdminDashboardController;
+use Controller\CardController;
 use Controller\DeckController;
 use Controller\HomeController;
 use Controller\LoginController;
@@ -15,6 +16,7 @@ use Service\DatabaseService;
 use Service\DeckService;
 use Service\EntityManagerService;
 use Service\EnvironmentService;
+use Service\FileService;
 use Service\PermissionService;
 use Service\RepositoryService;
 use Service\RequestHandlerService;
@@ -47,9 +49,13 @@ try {
     var_dump($e);
 }
 
-$cardService = (function ($entityManager, $repository, $environment) {
-    return new CardService($entityManager, $repository, $environment);
-})($entityManager, $repository, $environmentService);
+$fileService = (function () {
+    return new FileService();
+})();
+
+$cardService = (function ($entityManager, $repository, $environment, $fileService) {
+    return new CardService($entityManager, $repository, $environment, $fileService);
+})($entityManager, $repository, $environmentService, $fileService);
 
 $container->set("cardService", $cardService);
 
@@ -116,6 +122,12 @@ $adminController = (function ($userService, $cardService) {
 })($userService, $cardService);
 
 $container->set("adminController", $adminController);
+
+$cardController = (function ($cardService) {
+    return new CardController($cardService);
+})($cardService);
+
+$container->set("cardController", $cardController);
 
 $router = (function ($container) {
     $routeRepository = new RouteRepositoryService($container);

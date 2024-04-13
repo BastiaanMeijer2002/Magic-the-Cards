@@ -14,7 +14,7 @@
     ##cards##
     <div style="margin: 2.5%;">
         <p>[name]</p>
-        <img src="[img]" alt="[name]"/>
+        <img width="223" height="310" src="[img]" alt="[name]"/>
     </div>
     ##
 </div>

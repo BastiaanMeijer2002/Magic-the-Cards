@@ -24,7 +24,8 @@ $request = new Request(
     $_SERVER["REQUEST_METHOD"],
     $_SERVER['PATH_INFO'] ?? '/',
     $_POST,
-    $_SERVER["QUERY_STRING"] ?? null
+    $_SERVER["QUERY_STRING"] ?? null,
+    $_FILES ?? null,
 );
 $response = $router->route($request);
 
