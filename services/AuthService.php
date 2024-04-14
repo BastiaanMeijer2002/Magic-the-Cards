@@ -48,6 +48,12 @@ class AuthService
 
         $currentSession = $this->database->query("SELECT user_id FROM session_status WHERE session_id = ? ORDER BY id DESC", [session_id()]);
 
-        return $this->repository->findById(User::class, $currentSession[0]["user_id"]);
+        $user = $this->repository->findById(User::class, $currentSession[0]["user_id"]);
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user;
     }
 }

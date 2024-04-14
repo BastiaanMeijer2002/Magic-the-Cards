@@ -50,6 +50,10 @@ class LoginController
 
         $user = $this->repository->findAllCustom(User::class, ["email" => $body["email"]])[0];
 
+        if (!$user) {
+            return new RedirectResponse("/login?error=User+does+not+exist");
+        }
+
         if (!password_verify($body["password"], $user->getPasswordHash())) {
             return new RedirectResponse("/login?error=User+does+not+exist");
         }
@@ -65,6 +69,10 @@ class LoginController
     public function logoutUser(Request $request): RedirectResponse
     {
         $user = $this->authService->getCurrentUser();
+
+        if (!$user) {
+            return new RedirectResponse("/login?error=User+does+not+exist");
+        }
 
         $this->authService->setAuth(false, $user->getId());
 

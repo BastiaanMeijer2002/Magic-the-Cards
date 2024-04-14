@@ -25,7 +25,11 @@ class PermissionService
     {
         $user = $this->auth->getCurrentUser();
 
-        if ($user->isAdmin == 1) {
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->getIsAdmin() == 1) {
             return true;
         }
 
@@ -39,7 +43,11 @@ class PermissionService
     {
         $user = $this->auth->getCurrentUser();
 
-        if ($user->isPremium == 1) {
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->getIsPremium() == 1) {
             return true;
         }
 
