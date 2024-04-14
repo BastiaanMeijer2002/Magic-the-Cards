@@ -22,7 +22,7 @@ class AuthMiddleware
     public function process(Request $request): Request|RedirectResponse
     {
         if (!$this->authService->checkAuth()){
-            return new RedirectResponse("/login");
+            $request->setPathInfo("/login");
         }
 
         return $request;

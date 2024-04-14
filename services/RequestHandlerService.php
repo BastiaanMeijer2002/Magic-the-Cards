@@ -3,6 +3,7 @@
 namespace Service;
 
 use Core\DependencyContainer;
+use Core\RedirectResponse;
 use Core\Request;
 use ReflectionClass;
 use ReflectionException;
@@ -25,7 +26,7 @@ class RequestHandlerService
      * @throws ReflectionException
      * @throws \Exception
      */
-    public function handle(Request $request): Request
+    public function handle(Request $request): mixed
     {
         $middlewares = $this->routes->getMiddleware($request->getPathInfo());
 
