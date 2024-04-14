@@ -13,24 +13,6 @@ class Template
         return file_get_contents($filename);
     }
 
-    public static function loadStyleSheets($html): string
-    {
-        $styleDirectory = "public/styles";
-        $styleSheets = scandir($styleDirectory);
-        $styleTag = "<style>";
-
-        foreach($styleSheets as $file) {
-            if ($file != '.' && $file != '..' && is_file($styleDirectory. '/' . $file)) {
-                $styleTag .= file_get_contents($styleDirectory.'/'.$file);
-            }
-        }
-
-        $styleTag .= "</style>";
-
-
-        return $styleTag;
-
-    }
 
     public static function replaceTemplates($matches): array|bool|string|null
     {
@@ -127,8 +109,7 @@ class Template
         $template = self::addVariables($template, $variables);
         $template = self::handleIfStatements($template, $variables);
 
-        $finalHtml = preg_replace("/{{base}}/", $template, $baseHtml);
-        return preg_replace("/{{style}}/", self::loadStyleSheets($finalHtml), $finalHtml);
+        return preg_replace("/{{base}}/", $template, $baseHtml);
 
     }
 
