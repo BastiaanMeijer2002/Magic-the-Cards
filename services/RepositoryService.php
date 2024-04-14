@@ -174,7 +174,10 @@ class RepositoryService
                 if(!empty($relationItems)){
                     foreach ($relationItems as $item)
                     {
-                        $reflection->getMethod("add" . $entityName)->invoke($obj, $this->findById($className, $item[$key]));
+                        $entry = $this->findById($className, $item[$key]);
+                        if ($entry) {
+                            $reflection->getMethod("add" . $entityName)->invoke($obj, $entry);
+                        }
                     }
 
                 }
